@@ -1,0 +1,12 @@
+/**
+ * Systemtap的第一个程序
+ * $ stap hello-world.stp
+ * hello world
+*/
+
+probe begin
+{
+  print("hello world\n")
+  exit()
+}
+

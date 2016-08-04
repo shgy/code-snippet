@@ -1,0 +1,206 @@
+# -*- coding: utf-8 -*-
+
+
+import Tkinter as tki # Tkinter -> tkinter in Python3
+import ttk
+from ScrolledText import ScrolledText
+import tkMessageBox
+
+import os
+
+# coding=utf-8
+from Tkinter import *
+from ttk import *
+from ScrolledText import ScrolledText
+__author__ = 'Administrator'
+
+import os
+import tkMessageBox
+import threading
+
+import time
+
+class JobThread(object):
+
+    def do_work(self, *args, **kwargs):
+
+        gui = kwargs['gui']
+
+        dtype = gui.dtype.get()
+        fmt = gui.fmt.get()
+        out = gui.ent.get()
+
+        if not out:
+            tkMessageBox.showerror(title=u'错误', message=u'输出文件必须填写')
+            return
+
+        if os.path.exists(out):
+            tkMessageBox.showerror(title=u'错误', message=u'文件已经存在')
+            return
+        gui.notice(u'start to download ... ')
+        gui.notice(os.getcwd())
+        try:
+            print 'background work'
+        except Exception as e:
+            tkMessageBox.showerror(u'错误', e.message)
+
+
+    def __call__(self, *args, **kwargs):
+        self.do_work(*args, **kwargs)
+        kwargs['gui'].btn.state(['!disabled'])
+
+
+class App(object):
+    def notice(self, msg):
+        self.txt.insert(END, msg)
+        self.txt.insert(END, '\n')
+
+    def download(self, *args):
+        if self.btn.instate(['disabled']): return
+        self.btn.state(['disabled'])
+
+        dtype = self.dtype.get()
+        fmt = self.fmt.get()
+        out = self.ent.get()
+
+        self.t = threading.Thread(target=JobThread(), kwargs={"gui": self})
+        # t.setDaemon(True)
+        self.t.start()
+
+    def __init__(self):
+        self.root = Tk()
+        # self.root.geometry('600x300')
+        headFrame = Frame(height = 20,width = 700, master=self.root)
+        # root.resizable(width=False, height=False) #宽不可变, 高可变,默认为True
+        self.dtype = Combobox(headFrame, textvariable=StringVar(),width=10)
+        self.dtype["values"] = ('dtype1', 'dtype2')
+        self.dtype["state"] = "readonly"
+        self.dtype.current(0)
+        # players.set("演员表")
+        # print(players.get())
+        self.fmt = Combobox(headFrame, textvariable=StringVar(),width=10)
+        self.fmt["state"] = "readonly"
+        self.fmt.current(0)
+
+        l1 = Label(master=headFrame, text=u"数据类型")
+        l1.pack(side='left')
+        self.dtype.pack(side='left')
+
+        l2 = Label(master=headFrame, text=u"输出格式")
+        l2.pack(side='left')
+        self.fmt.pack(side='left')
+
+        l3 = Label(master=headFrame, text=u"输出文件")
+        l3.pack(side='left')
+
+        self.ent = Entry(master=headFrame)
+        self.ent.pack(side='left')
+        self.btn = Button(master=headFrame, text=u"开始下载")
+        self.btn.pack(side='left')
+        self.btn.bind("<Button-1>", self.download)
+
+        headFrame.pack(padx='0.5c', pady='0.5c')
+        self.txt= ScrolledText(master=self.root,yscrollcommand='1')
+        self.txt.pack(expand=YES, fill="both",padx='0.5c', pady='0.5c')
+
+app = App()
+
+def on_closing():
+    if tkMessageBox.askokcancel("Quit", "Do you want to quit?"):
+        app.root.destroy()
+
+app.root.protocol("WM_DELETE_WINDOW", on_closing)
+app.root.title(u"数据导出工具V1.1")
+app.root.mainloop()
+class App(object):
+
+    def notice(self, msg):
+        self.txt.insert(tki.END, msg + '\n')
+
+    def download(self, *args):
+        dtype = self.dtype.get()
+        fmt = self.fmt.get()
+        out = self.ent.get()
+        self.notice(os.getcwd())
+        if not out:
+            tkMessageBox.showerror(title=u'错误', message=u'输出文件必须填写')
+            return
+
+
+        if os.path.exists(out):
+            tkMessageBox.showerror(title=u'错误', message=u'文件已经存在')
+            return
+        self.txt.delete("1.0", tki.END)
+        try:
+            print u'----执行内部处理逻辑------'
+        except Exception as e:
+            tkMessageBox.showerror(u'错误', e.message)
+
+    def init_head(self):
+        headfrm = tki.Frame(height=30, width=600, master=self.root)
+        headfrm.pack(fill="both", expand=True)
+        # ensure a consistent GUI size
+        headfrm.grid_propagate(False)
+        # # implement stretchability
+        # headfrm.grid_rowconfigure(0, weight=1)
+        # headfrm.grid_columnconfigure(0, weight=1)
+        # root.resizable(width=False, height=False) #宽不可变, 高可变,默认为True
+        l1 = ttk.Label(master=headfrm, text=u"数据类型")
+        l1.grid(row=0, column=1)
+        self.dtype = ttk.Combobox(headfrm, textvariable=tki.StringVar(), width=10)
+        self.dtype["values"] = ("dtype_cand1", "dtype_cand2") # api_export.conf.dtypes()
+        self.dtype["state"] = "readonly"
+        self.dtype.current(0)
+        self.dtype.grid(row=0, column=2)
+        # players.set("演员表")
+        # print(players.get())
+        l2 = ttk.Label(master=headfrm, text=u"输出格式")
+        l2.grid(row=0, column=3)
+        self.fmt = ttk.Combobox(headfrm, textvariable=tki.StringVar(), width=10)
+        self.fmt["values"] = ("fmt_cand1", "fmt_cand2") # api_export.conf.fmts()
+        self.fmt["state"] = "readonly"
+        self.fmt.current(0)
+        self.fmt.grid(row=0, column=4)
+
+        l3 = ttk.Label(master=headfrm, text=u"输出文件")
+        l3.grid(row=0, column=5)
+        self.ent = ttk.Entry(master=headfrm)
+        self.ent.grid(row=0, column=6)
+        btn = ttk.Button(master=headfrm, text=u"开始下载")
+        btn.grid(row=0, column=7)
+        btn.bind("<Button-1>", self.download)
+
+        # self.txt = ScrolledText(master=headfrm, bg='white', height='45')
+        # self.txt.grid(row=1,column=1, columnspan=8, rowspan=2)
+
+
+    def init_sta_frame(self):
+        # create a Frame for the Text and Scrollbar
+        txt_frm = tki.Frame(self.root, width=600, height=600)
+        txt_frm.pack(fill="both", expand=True)
+        # ensure a consistent GUI size
+        txt_frm.grid_propagate(False)
+        # implement stretchability
+        txt_frm.grid_rowconfigure(0, weight=1)
+        txt_frm.grid_columnconfigure(0, weight=1)
+
+
+        # create a Text widget
+        self.txt = tki.Text(txt_frm, borderwidth=3, relief="sunken")
+        # self.txt.config(font=("consolas", 12), undo=True, wrap='word')
+        self.txt.grid(row=0, column=0, sticky="nsew", padx=2, pady=2)
+
+        # create a Scrollbar and associate it with txt
+        scrollb = tki.Scrollbar(txt_frm, command=self.txt.yview)
+        scrollb.grid(row=0, column=1, sticky='nsew')
+        self.txt['yscrollcommand'] = scrollb.set
+
+    def __init__(self):
+        self.root = tki.Tk()
+        self.root.title(u"数据导出工具V1.0")
+        self.init_head()
+        self.init_sta_frame()
+
+
+app = App()
+app.root.mainloop()
