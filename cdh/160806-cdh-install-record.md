@@ -1,19 +1,28 @@
 在家安装CDH-5.6.0,  在笔记本上安装, 成功了. 决定复现整个过程. 
+
 注意为单机安装
+
 安装方式为离线安装, 因为在线安装下载等待太慢了.
+
 使用的电脑为笔记本8G内存. 硬盘为SSD固态硬盘.
 
 参考: http://blog.csdn.net/u012348345/article/details/51451455
 
 官方安装文档：http://www.cloudera.com/documentation/enterprise/5-6-x/topics/installation.html 
- Cloudera Manager地址：http://archive.cloudera.com/cm5/cm/5/ 
+
+Cloudera Manager地址：http://archive.cloudera.com/cm5/cm/5/ 
+
 CDH安装包地址：http://archive.cloudera.com/cdh5/parcels/5.6.0/
 
 ###软件准备###
 ubuntu-14.04.2-desktop-amd64.iso
+
 cloudera-manager-trusty-cm5.6.0_amd64.tar.gz
+
 CDH-5.6.0-1.cdh5.6.0.p0.45-trusty.parcel
+
 CDH-5.6.0-1.cdh5.6.0.p0.45-trusty.parcel.sha1
+
 manifest.json
 
 
