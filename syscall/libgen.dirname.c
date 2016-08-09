@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
  }
  printf("dirname is : %s\n", dirname(t1));
  printf("basename is : %s\n", basename(t2));
- free(t1);
- free(t2);
+ free(t1);t1=NULL;
+ free(t2);t2=NULL;
  return 0;
 }
