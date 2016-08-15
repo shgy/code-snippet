@@ -7,7 +7,9 @@
 int main(int argc, char *argv[])
 {
  int i;
- for(i=SIG
- printf("%s\n", strsignal(SIGINT));
+ for(i=1; i<32; i++)
+ {
+   printf("%s\n", strsignal(i));
+ }
  return 0;
 }
