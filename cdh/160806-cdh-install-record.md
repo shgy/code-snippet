@@ -53,6 +53,9 @@ LoginGraceTime 120
 # PermitRootLogin without-password
 PermitRootLogin yes
 StrictModes yes
+root@cdh-node-1:~# sudo service ssh restart
+ssh stop/waiting
+ssh start/running, process 1499
 ```
 4. 安装MySQL, 并且允许远程连接到MySQL.
 ```
