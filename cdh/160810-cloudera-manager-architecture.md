@@ -9,5 +9,5 @@ Maintaining configuration state
 Agent负责的工作有:
 Supervising processes
 Mointoring processes
-Supervising相当于封疆大吏(只负责自己的那台机器)；
-Mointoring相当于锦衣卫(监控汇报).
+Supervising相当于封疆大吏(只负责自己所在的那台机器)；
+Mointoring相当于锦衣卫(向Server汇报监控的情况).

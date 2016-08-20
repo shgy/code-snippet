@@ -159,5 +159,5 @@ root@cdh-node-1:~# sudo -u oozie hdfs fsck / -delete
 
 ```
 
-
-
+###ntp server使用注意的地方###
+ntpdate命令是要在ntp进程退出的情况下执行，如果执行上述命令出错，那么请先关闭ntp进程
