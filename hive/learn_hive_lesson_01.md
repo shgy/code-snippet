@@ -1,4 +1,5 @@
 hive依赖于hadoop, 因此安装hive之前, 机器上必须安装了hadoop.hive的安装很简单, 两步就OK: 
+
 1. 将Hive的tar.gz文件解压到/opt目录.
 2. 在/etc/profile文件中配置HIVE_HOME即可.
 
@@ -35,9 +36,9 @@ Subversion git://glacier.local/Users/chao/Documents/hive -r 3e8d832a1a8e2b12029a
 Compiled by chao on Thu May 14 15:23:15 PDT 2015
 From source with checksum 5820e7473159988fd33a0afcb10be30a
 ```
-当然, 直接使用`hive --version`也是可以的, 只不过hive命令的shell脚本对其进行了转换而已.
+当然, 直接使用`hive --version`也是可以的, 只不过hive命令的shell脚本对其进行了转换而已. 可以通过查看hive命令的shell脚本代码验证这一点.
 ```
-# cat hive  
+# cat -n  hive  
     30	while [ $# -gt 0 ]; do
     31	  case "$1" in
     32	    --version)
@@ -110,10 +111,12 @@ $ cat -n hive
 
 metatool的典型应用场景:
 参考: https://cwiki.apache.org/confluence/display/Hive/Hive+MetaTool
+
 hadoop的fs.defaultFS变更；由于hadoop的升级或者其它原因, fs.defaultFS变化了. 这时候hive就无法正常使用了, 因为hive建表的时候保存了数据的相关路径. 这时候就需要使用`metatool -updateLocation hdfs://oldpath hdfs:newpath` 来修改FSRoots. 然后使用`metatool -listFsRoot`查看是否修改成功.
 
 schematool的典型应用场景:
 参考: https://cwiki.apache.org/confluence/display/Hive/Hive+Schema+Tool 
+
 默认情况下, hive是不会验证metastore schema与hive 执行jar包的版本是否匹配. 这在hive升级后,有可能出现不匹配的问题.因此, 可以使用命令查看两者是否一致, 或者升级metastore schema. 
 ```
 schematool -dbType mysql -info
