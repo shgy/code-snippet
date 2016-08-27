@@ -69,12 +69,9 @@ public class BulkOperation_ {
 这就是为什么Lucene在使用Packed存储时, 者需要一个变量bitsPerValue, 即每个值需要的bit数量.
 
 比如: 
-
-      对于性别这个字段, bitsPerValue=1, 人妖就....
-
-      对于省份这个字段, bitsPerValue=6, 中国的省份目前没有超过63个.
-
-      ....
+1. 对于性别这个字段, bitsPerValue=1, 人妖就....
+2. 对于省份这个字段, bitsPerValue=6, 中国的省份目前没有超过63个.
+ ....
    
 接下来就是理解computeIterations()方法注释中的这几个样例:
  ```
@@ -84,13 +81,13 @@ public class BulkOperation_ {
  *  - 63 bits per value -&gt; b=63, v=8
 ```
  ...
-   首先需要明白的是变量b和变量v分别代表什么 ?
+首先需要明白的是变量b和变量v分别代表什么 ?
 
-   b代表 byteBlockCount
+1. b代表 byteBlockCount
+2. v代表 byteValueCount
 
-   v代表 byteValueCount
+这两个变量在哪里呢? 通过调试代码发现在`BulkOperationPacked.java`文件中, 下面是它的构造方法
 
-   这两个变量在哪里呢? 通过调试代码发现在BulkOperationPacked.java文件中, 下面是它的构造方法
 ```
 // org.apache.lucene.util.packed.BulkOperationPacked.java
   
@@ -127,8 +124,8 @@ public class BulkOperation_ {
 `50 bits per value -&gt; b=25, v=4  ` 是说  **每个块需求50个byte来存储, 这个块只能存储 4个值**
 ```
 
-对于16 bits per value的块, 它对应的代码是`new BulkOperationPacked16()`, 在BulkOperation第43行.
-对于50 bits per value的块, 它对应的代码是`new BulkOperationPacked(50)`, 在BulkOperation第77行.
+1. 对于16 bits per value的块, 它对应的代码是`new BulkOperationPacked16()`, 在BulkOperation第43行.
+2. 对于50 bits per value的块, 它对应的代码是`new BulkOperationPacked(50)`, 在BulkOperation第77行.
 
 我理解这里花了很长一段时间.  上面的理解了, 就理解了computeIterations()方法一半的东西了. 接下来来理解下一半.即为什么 `iterations = ramBudget / (b + 8v)` ?
 
