@@ -77,15 +77,19 @@ public class BulkOperation_ {
       ....
    
 接下来就是理解computeIterations()方法注释中的这几个样例:
-   
+ ```
  *  - 16 bits per value -&gt; b=2, v=1
  *  - 24 bits per value -&gt; b=3, v=1
  *  - 50 bits per value -&gt; b=25, v=4
  *  - 63 bits per value -&gt; b=63, v=8
+```
  ...
    首先需要明白的是变量b和变量v分别代表什么 ?
+
    b代表 byteBlockCount
+
    v代表 byteValueCount
+
    这两个变量在哪里呢? 通过调试代码发现在BulkOperationPacked.java文件中, 下面是它的构造方法
 ```
 // org.apache.lucene.util.packed.BulkOperationPacked.java
