@@ -122,10 +122,10 @@ public class BulkOperation_ {
 ```
 
 尽管Lucene把数据的存储单位定位到了bit, 但是它太小了, 站在人的角度, 不够友好. 因此,在Lucene中, 通常使用byte[] 或者 long[] 来表示压缩过后的数据. 压缩后的数据, 以块为单位.即代码中反复出现的Block.
-
+```
 `16 bits per value -&gt; b=2, v=1   ` 是说 **每个块需要2个byte来存储, 这个块只能存储1个值**, 同理
 `50 bits per value -&gt; b=25, v=4  ` 是说  **每个块需求50个byte来存储, 这个块只能存储 4个值**
-
+```
 
 对于16 bits per value的块, 它对应的代码是`new BulkOperationPacked16()`, 在BulkOperation第43行.
 对于50 bits per value的块, 它对应的代码是`new BulkOperationPacked(50)`, 在BulkOperation第77行.
