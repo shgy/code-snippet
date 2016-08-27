@@ -60,17 +60,20 @@ public class BulkOperation_ {
 ```
 ### 个人理解 ###
 
-需求:   有一批非负整数需要存储到文件中, 如何能尽可能地节约空间? 
-分析:
-   在实际的应用中, 这样的数据分布大多分布在一个区间中. 
-   比如: 平台每天的访问量/应用每天的活跃人数/平台每天的订单数量. 这些数值一般都会有一个上限.
-   这就是为什么Lucene在使用Packed存储时, 者需要一个变量bitsPerValue, 即每个值需要的bit数量.
-   比如: 
+需求:   对于有一定特征的数据, 如何能尽可能地以节约空间的方式存储? 
+
+这里的特征指的是数据分布在一个区间中.
+
+比如: 平台每天的访问量/应用每天的活跃人数/平台每天的订单数量. 这些数值一般都会有一个上限.
+
+这就是为什么Lucene在使用Packed存储时, 者需要一个变量bitsPerValue, 即每个值需要的bit数量.
+
+比如: 
       对于性别这个字段, bitsPerValue=1, 人妖就....
       对于省份这个字段, bitsPerValue=6, 中国的省份目前没有超过63个.
       ....
    
-   接下来就是理解computeIterations()方法注释中的这几个样例:
+接下来就是理解computeIterations()方法注释中的这几个样例:
    
  *  - 16 bits per value -&gt; b=2, v=1
  *  - 24 bits per value -&gt; b=3, v=1
@@ -111,15 +114,17 @@ public class BulkOperation_ {
   }
 ```
 
-尽管Lucene把数据的存储单位定位到了bit, 但是它太小了, 站在人的角度, 不够友好. 因此,在Lucene中, 通常使用byte[] 或者 long[] 来表示压缩过后的数据.
-`16 bits per value -&gt; b=2, v=1   ` 是说 `每个块需要2个byte来存储, 这个块只能存储1个值`, 同理
-`50 bits per value -&gt; b=25, v=4  ` 是说 `每个块需求50个byte来存储, 这个块只能存储 4个值`
+尽管Lucene把数据的存储单位定位到了bit, 但是它太小了, 站在人的角度, 不够友好. 因此,在Lucene中, 通常使用byte[] 或者 long[] 来表示压缩过后的数据. 压缩后的数据, 以块为单位.即代码中反复出现的Block.
+
+`16 bits per value -&gt; b=2, v=1   ` 是说 **`每个块需要2个byte来存储, 这个块只能存储1个值`**, 同理
+`50 bits per value -&gt; b=25, v=4  ` 是说  **`每个块需求50个byte来存储, 这个块只能存储 4个值` **
+
+
 对于16 bits per value的块, 它对应的代码是`new BulkOperationPacked16()`, 在BulkOperation第43行.
 对于50 bits per value的块, 它对应的代码是`new BulkOperationPacked(50)`, 在BulkOperation第77行.
 
 我理解这里花了很长一段时间.  上面的理解了, 就理解了computeIterations()方法一半的东西了. 接下来来理解下一半.即为什么 `iterations = ramBudget / (b + 8v)` ?
 
-为什么呢? 为什么呢? 为什么呢?
 
 既然类的名字是BulkOperation, 即`批量处理`. 那么它需要一个缓冲池. 这个缓冲池定义多大比较好呢? 默认是1024 byte. 在Lucene中, 这个缓冲池的表现形式是这样的
 ```
