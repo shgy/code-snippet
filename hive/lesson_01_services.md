@@ -1,4 +1,13 @@
 hive依赖于hadoop, 因此安装hive之前, 机器上必须安装了hadoop.hive的安装很简单, 两步就OK: 
+补充:
+Hive也可以不依赖于hadoop, 当然这样的配置只用于学习环境,即在/etc/profile文件中添加如下的命令
+```
+export HIVE_OPTS='--hiveconf mapred.job.tracker=local --hiveconf fs.default.name=file:///tmp \
+     --hiveconf hive.metastore.warehouse.dir=file:///tmp/warehouse \
+	 	     --hiveconf javax.jdo.option.ConnectionURL=jdbc:derby:;databaseName=/tmp/metastore_db;create=true'
+```
+即启用Hive的本地模式. 这样启动Hive之前就不用启动Hadoop了.方便Hive的学习.
+
 
 1. 将Hive的tar.gz文件解压到/opt目录.
 2. 在/etc/profile文件中配置HIVE_HOME即可.
