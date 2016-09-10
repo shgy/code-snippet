@@ -11,6 +11,20 @@ STORED as ORC;
 然后插入数据的时候,就
 ```
 INSERT overwrite TABLE mydatabase.mytable PARTITION (dt)
+...
 ```
 
+如果希望查看当前表中有哪些 partition, 则可以使用命令
+```
+show partitions default.test
+```
+
+如果以时间作为分区, 对于太老的历史数据, 可以删除
+```
+alter table default.test drop partition (dt='2015-01-01');
+```
+
+问题:
+1. Hive支持最大的分区数是多少 ?
+2. 过多的分区是否会降低Hive的性能 ?
 
