@@ -1,0 +1,26 @@
+阶段一:编译hive源码到eclipse中
+参考: https://cwiki.apache.org/confluence/display/Hive/HiveDeveloperFAQ#HiveDeveloperFAQ-HowdoIimportintoEclipse?
+```
+git clone https://github.com/apache/hive.git
+git checkout release-1.1.1
+mvn clean package eclipse:clean eclipse:eclipse  -Phadoop-2 -Pitests -DskipTests -DdownloadSources -DdownloadJavadocs
+```
+编译需要很长时间,主要是下载Java的各种jar包, 编译成功后,直接import到eclipse中即可看到源码.
+
+阶段二:在eclipse中调试Hive.
+参考:http://datavalley.github.io/2015/10/16/Hive%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8B%E6%9C%AC%E5%9C%B0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA
+step 1: 编译Hive
+```
+mvn clean package -DskipTests -Phadoop-2 -Pdist
+```
+这一步会很快,这是因为在阶段一已经准备好了相关的jar包.
+
+step 2: 以调试的方式启动hive
+```
+hive/packaging/target/apache-hive-1.1.1-bin/apache-hive-1.1.1-bin$ ./bin/hive --debug --hiveconf hive.root.logger=DEBUG,console
+Listening for transport dt_socket at address: 8000
+```
+
+step 3: 在eclipse中选择[hive-cli] -> [debug-as] -> [Configurations] -> [remote-java-applications] 启动即可.
+在启动前需要在CliDriver.java类的main()方法中打上断点.
+

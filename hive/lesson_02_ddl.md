@@ -3,7 +3,7 @@ Hive的DDL(Data Define Language)与MySQL很像.
 记录一些常用的
 1. 修改表名
 ```
-alter table if not exists default.test3 rename to default.tab1;
+alter table if exists default.test3 rename to default.tab1;
 ```
 1. 复制表结构
 ```
