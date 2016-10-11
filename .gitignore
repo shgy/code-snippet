@@ -1,3 +1,4 @@
 os/hd60M.img
 os/boot/*.bin
 os/os-bochs.out
+.idea

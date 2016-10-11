@@ -1,0 +1,37 @@
+*** Starting uWSGI 2.0.13.1 (64bit) on [Thu Jun 23 19:54:56 2016] ***
+compiled with version: 4.8.4 on 21 June 2016 19:34:05
+os: Linux-3.16.0-30-generic #40~14.04.1-Ubuntu SMP Thu Jan 15 17:43:14 UTC 2015
+nodename: shgy-thinkpad
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 4
+current working directory: /home/shgy/work
+detected binary path: /usr/local/bin/uwsgi
+your processes number limit is 22093
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uWSGI http bound on :8000 fd 4
+uwsgi socket 0 bound to TCP address 127.0.0.1:57917 (port auto-assigned) fd 3
+Python version: 2.7.6 (default, Jun 22 2015, 18:01:27)  [GCC 4.8.2]
+Python main interpreter initialized at 0x1e36180
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 415360 bytes (405 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+failed to open python file ESManage/wsgi.py
+unable to load app 0 (mountpoint='') (callable not found or import error)
+*** no app loaded. going in full dynamic mode ***
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 27157)
+spawned uWSGI worker 1 (pid: 27158, cores: 2)
+spawned uWSGI worker 2 (pid: 27159, cores: 2)
+spawned uWSGI worker 3 (pid: 27160, cores: 2)
+spawned uWSGI worker 4 (pid: 27161, cores: 2)
+spawned uWSGI http 1 (pid: 27162)
+--- no python application found, check your startup logs for errors ---
+[pid: 27161|app: -1|req: -1/1] 192.168.10.236 () {28 vars in 346 bytes} [Thu Jun 23 19:55:14 2016] GET /api/bbd_qyxx/?ak=token => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (0 switches on core 0)
+Thu Jun 23 19:57:16 2016 - uWSGI worker 3 screams: UAAAAAAH my master disconnected: i will kill myself !!!

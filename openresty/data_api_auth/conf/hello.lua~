@@ -1,0 +1,2 @@
+local welcome = 'Hello World'
+ngx.say(welcome)
