@@ -1,0 +1,3 @@
+cd pciutils-3.1.10
+make PREFIX=/usr ZLIB=no SHARED=yes DNS=no PCI_COMPRESSED_IDS=0 all
+make PREFIX=/usr ZLIB=no SHARED=yes DNS=no PCI_COMPRESSED_IDS=0 install DESTDIR=$SYSROOT

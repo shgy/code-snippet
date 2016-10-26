@@ -19,12 +19,3 @@ type feature     value
     from mydb.mytable where dt='2016-09-06' group by dt, type
 '''
 在数据量比较少的情况下, 这种方法一个map-reduce job就完成任务了, 速度相当给力.
-
-场景: 一行数据中有多个指标, 希望每个指标一行.
-```
-select  '项目' project, '纬度' feature, metrics.key,metrics.value, dt peroid, dt from ups.mytable
-  LATERAL VIEW explode(array(
-    named_struct('key','key1','value',val1,
-    named_struct('key','key2','value',val2))) ns as metrics
-```
-需要注意: array中每个named_struct成员的类型需要一致.
