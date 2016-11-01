@@ -1,0 +1,37 @@
+Hive使用的HQL与MySQL的SQL最为接近, 学习Hive, 打交道最多的也是HQL. 因此决定从分析HQL入手来理解Hive的源码.
+SQL语言一共分为四大类: 数据查询语言DQL, 数据操纵语言DML, 数据定义语言DDL和数据控制语言DCL.
+
+DQL的典型关键字是: Select,
+DML的典型关键字是: Insert/Update/delete
+DDL的典型关键字是: Create Table/View/Index/Cluster
+DCL的典型关键字是: Grant/Rollback/commit
+
+通常进入Hive后, 我们需要了解Hive中有哪些库, 库中有哪些表? 通常用到的语句如下:
+```
+show databases like "aa"
+show tables in database like "aa"
+show partitions table_name;
+```
+
+这些语句在Hive内部是如何执行的 ? 
+`set hive.cli.print.current.db=true`则会在命令行中显示出当前所在的数据库.
+
+以`show databases`为例:
+
+Hive使用antlr来解析Hive的SQL, 然后将执行完成后的结果存储到/tmp目录下, 最后读取出来,展示到命令行界面.
+```
+/tmp/hive-shgy/46cd0336-a386-404d-9f42-8f922ba66f54/hive_2016-10-28_13-14-40_752_8180071189618217627-1$ cat -- -local-10000 
+default
+test
+```
+
+Parser                将SQL转换成抽象语法树
+Semantic Analyzer     将抽象语法树转换成查询块
+Logic Plan Generator  将查询块转换成逻辑查询计划
+
+
+
+
+
+
+

@@ -24,7 +24,6 @@ int 0x10
 
 ; protect mode step 1
 lgdt [gdt_size]
-
 ; protect mode step 2
 in al,0x92                         ;南桥芯片内的端口 
 or al,0000_0010B
@@ -41,17 +40,6 @@ jmp dword 0x0008: flush  ; 由于代码段起始地址是0x7c00, 而vstart=0x7c0
 
 [bits 32]
 flush:
-    ; 初始化栈段
-    mov cx,0x18 ;
-    mov ss,cx
-    mov esp,0x7c00
-    mov ebp,esp
-
-    ; test push
-    ;mov ax, 1
-    ;push ax
-    ;pop bx
-
 	mov ax, 0x0010
 	mov gs, ax
     mov byte [gs:0xb80a0],'P'
@@ -121,8 +109,7 @@ message db "  1 MBR"
 gdt_items  dd 0x00000000,0x00000000 ; 空GDT
            dd 0x0000ffff,0x00cf9800 ; 代码段 0x0000 4G
            dd 0x0000ffff,0x00cf9200 ; 数据段 0x0000 4G
-           dd 0x00007a00,0x00409600 ; 栈段
-gdt_size dw 0x001f
+gdt_size dw 0x0017
 gdt_base dd gdt_items
 
 times 510-($-$$) db 0
