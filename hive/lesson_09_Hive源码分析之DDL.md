@@ -30,6 +30,9 @@ Semantic Analyzer     将抽象语法树转换成查询块
 Logic Plan Generator  将查询块转换成逻辑查询计划
 
 
+为了能够理解Hive是如何使用antlr的, 花了3天时间学习了antlr4的基础知识, 参考了<The Definitive ANTLR 4 Reference, 2nd Edition>
+虽然是英文中, 学习曲线却相当平缓. 看了几天后, 我已经能大致明白Hive中的各个.g文件了.
+
 
 
 

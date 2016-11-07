@@ -11,9 +11,12 @@ xxd -u -a -g 1 -c 512 -l 512 hd60M.img
 int main(int argc, char* argv[])
 {
     // __asm__("movb $0x45, %gs:0x000b80a6");
+    // put_char('P');
     int i;
     for(i=0;i<1000;i++)
         put_char('P');
-
+    put_char('\n');
+    for(i=0;i<1000;i++)
+        put_char('N');
     while(1);
 }

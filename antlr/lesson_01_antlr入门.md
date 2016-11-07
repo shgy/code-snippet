@@ -52,3 +52,16 @@ public class Main {
 关于antlr, 可以参考: http://supportweb.cs.bham.ac.uk/documentation/tutorials/docsystem/build/tutorials/antlr/antlr.html 看到更多的例子.
 也可以从其它的大学搜索antlr的tutorials, 寻找更多入门的例子来练手.
 
+---- 了解了一些antlr语法后, 关于expressions.g文件的理解
+在expressions.g文件中, 每一个运算符后面都会带一个"^"符号, 如下:
+```
+expr     : sumExpr SEMI;
+sumExpr  : prodExpr ((PLUS^|MINUS^) prodExpr)*; 
+prodExpr : powExpr ((MUL^|DIV^|MOD^) powExpr)* ;
+powExpr  : atom (POW^ atom)? ;
+atom     : INT ;
+```
+其含义表示: PLUS和STAR记号是操作符，因此把它们作为子树的根结点，在它们后面注释上字符'^'。SEMI记号后缀有字符'!'，表明它不应该被加入到树中.
+参考文档: http://blackproof.iteye.com/blog/1807372
+
+

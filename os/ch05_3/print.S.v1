@@ -1,0 +1,60 @@
+;
+; 最简陋版本的print.S,  不能识别换行, 不能滚屏,
+; 只是简单的打印出一个字符,然后移动光标
+;
+;
+[bits 32]
+section .text
+
+global put_char
+
+put_char:
+   pushad
+
+
+   ; 获取当前光标 高8位
+   mov dx, 0x03d4
+   mov al, 0x0e
+   out dx, al
+   mov dx, 0x03d5
+   in al, dx
+
+   mov ah, al
+   ; 获取当前光标 低8位
+   mov dx, 0x03d4
+   mov al, 0x0f
+   out dx, al
+   mov dx, 0x03d5
+   in al, dx
+
+   shl eax,1 ; 光标位置*2 才代表真正写入地址, 因为每个字符需要2个字节表示
+
+   mov bl, [esp + 36] ; 从栈中获取kernel.c传递过来的参数, 由于pushad压栈了8个寄存器, 加上IP寄存器, 4*9 因此从36位开始.
+   mov byte [gs: 0xb8000 + eax],bl
+
+   shr eax,1
+
+   mov bx, ax
+   add bx, 1 ; 光标右移一位
+
+
+   ; 设置光标 高8位
+   mov dx, 0x03d4
+   mov al, 0x0e
+   out dx, al
+
+   mov dx, 0x03d5
+   mov al, bh
+   out dx, al
+
+   ; 设置光标 低8位
+   mov dx, 0x03d4
+   mov al, 0x0f
+   out dx, al
+
+   mov dx, 0x03d5
+   mov al, bl
+   out dx, al
+
+   popad
+   ret

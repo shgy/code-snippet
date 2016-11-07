@@ -14,6 +14,10 @@ Step 1: 创建虚拟硬盘, 命令参数与书中描述的有所不同.
 ```
 bximage -hd="60M" -mode="create" -q hd60M.img
 ```
+当然, 也可以使用vboxmanage的命令
+```
+VBoxManage createmedium disk --filename 100MB_VHD.vhd --size 100 --format VHD --variant Fixed
+```
 Step 2: 创建配置文件, 注意"keyboard"选项.
 ```
 $ cat bochsrc.disk 

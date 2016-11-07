@@ -16,6 +16,24 @@ show partitions table_name;
 这些语句在Hive内部是如何执行的 ? 
 `set hive.cli.print.current.db=true`则会在命令行中显示出当前所在的数据库.
 
+以`show databases`为例:
+
+Hive使用antlr来解析Hive的SQL, 然后将执行完成后的结果存储到/tmp目录下, 最后读取出来,展示到命令行界面.
+```
+/tmp/hive-shgy/46cd0336-a386-404d-9f42-8f922ba66f54/hive_2016-10-28_13-14-40_752_8180071189618217627-1$ cat -- -local-10000 
+default
+test
+```
+
+Parser                将SQL转换成抽象语法树
+Semantic Analyzer     将抽象语法树转换成查询块
+Logic Plan Generator  将查询块转换成逻辑查询计划
+
+
+为了能够理解Hive是如何使用antlr的, 花了3天时间学习了antlr4的基础知识, 参考了<The Definitive ANTLR 4 Reference, 2nd Edition>
+
+
+
 
 
 

@@ -48,11 +48,4 @@ higher priority to it than module source. Pretty sure there is a better way
 --hiveconf datanucleus.metadata.validate=false
 --hiveconf hive.metastore.schema.verification=false
 ```
-需要修改hive/common/target/test-classes/hive-site.xml中的
-```
-<property>
-  <name>javax.jdo.option.ConnectionDriverName</name>
-  <value>org.apache.derby.jdbc.EmbeddedDriver</value>
-  <description>Override ConfVar defined in HiveConf</description>
-</property>
-```
+

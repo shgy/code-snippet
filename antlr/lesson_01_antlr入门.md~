@@ -50,5 +50,5 @@ public class Main {
 运行,然后在控制台输入表达式,以";"结尾,即可看到结果.
 
 关于antlr, 可以参考: http://supportweb.cs.bham.ac.uk/documentation/tutorials/docsystem/build/tutorials/antlr/antlr.html 看到更多的例子.
-也可以从其它的大学搜索antlr的tutorials, 寻找入门的例子.
+也可以从其它的大学搜索antlr的tutorials, 寻找更多入门的例子来练手.
 

@@ -3,7 +3,6 @@
 ;
 [bits 32]
 section .text
-
 global put_char
 
 put_char:
