@@ -6,6 +6,12 @@
 
 1. 修改elf文件的加载方式, 以前为了简化问题, 只处理一个段, 现在处理多个段.
    另elf文件段两个字段: p_filesz, p_memsz 有可能会不一样, 以前直接读取的是p_filesz, 而现在读取的是p_memsz.
+```
+; 解析Program Header
+mov eax, [gs: 0x7e00+ebx+0x04]
+mov edx, [gs: 0x7e00+ebx+0x08] ; 段的虚拟地址
+mov ecx, [gs: 0x7e00+ebx+0x14] ; 段的大小
+```
 
 2. 参考Intel Develop的文档, 了解了一下中断门的段描述符.
 
@@ -21,3 +27,22 @@
 
 书中在实现打印字符串的时候, 也讲解了打印整型的函数, 当时觉得多余, 就没有实现. 现在认识到这个函数很重要,
 因为在调试的过程中, 如果能够打印出地址空间或者是标识, 是很有必要的.因此, 使用C语言来实现
+
+调整中断的速率
+```
+static int count=0;
+/* 通用的中断处理函数,一般用在异常出现时的处理 */
+static void general_intr_handler(uint8_t vec_nr) {
+   if (vec_nr == 0x27 || vec_nr == 0x2f) {	// 0x2f是从片8259A上的最后一个irq引脚，保留
+      return;		//IRQ7和IRQ15会产生伪中断(spurious interrupt),无须处理。
+   }
+   count++;
+   if(count%1000==0){
+       put_str("int vector: ");
+       put_int(vec_nr);
+       put_char('\n');
+   }
+
+}
+```
+这样的话, 就很容易看到设置` timer_init();`和不设置`timer_init()`两个速率的不同了.

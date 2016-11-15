@@ -43,11 +43,13 @@ higher priority to it than module source. Pretty sure there is a better way
 # Program arguments
 --hiveconf mapred.job.tracker=local
 --hiveconf fs.default.name=file:///tmp
---hiveconf hive.metastore.warehouse.dir=/tmp/warehouse
---hiveconf datanucleus.autoCreateSchema=true
---hiveconf datanucleus.metadata.validate=false
---hiveconf hive.metastore.schema.verification=false
+--hiveconf hive.metastore.warehouse.dir=/home/shgy/hive_workspace/warehouse
+--hiveconf  hive.root.logger=DEBUG,console
+--hiveconf hadoop.bin.path=/opt/hadoop-2.6.0/bin/hadoop
+--hiveconf hive.jar.path=/home/shgy/hive_workspace/hive/packaging/target/hive-1.1.1-bin/lib/hive-exec-1.1.1.jar
 ```
+在跑mapreduce任务时, 默认会找/usr/bin/hadoop, 如果hadoop没有安装在默认位置, 则会报错. 需要设置hadoop的安装地址
+
 需要修改hive/common/target/test-classes/hive-site.xml中的
 ```
 <property>
@@ -55,4 +57,26 @@ higher priority to it than module source. Pretty sure there is a better way
   <value>org.apache.derby.jdbc.EmbeddedDriver</value>
   <description>Override ConfVar defined in HiveConf</description>
 </property>
+```
+
+```
+# VM Arguments
+-Dhadoop.log.dir=/opt/hadoop-2.6.0/logs
+-Dhadoop.log.file=hadoop.log
+-Dhadoop.home.dir=/opt/hadoop-2.6.0
+-Dhadoop.id.str=shgy
+-Dhadoop.root.logger=INFO,console
+-Dhadoop.policy.file=hadoop-policy.xml
+-Djava.net.preferIPv4Stack=true
+-Dhadoop.security.logger=INFO,NullAppender
+```
+
+还需要将Hive相关的jar包设置到CLASSPATH下.
+```
+# cat /opt/hive-1.1.1/bin/hive
+...
+for f in ${HIVE_LIB}/*.jar; do
+  CLASSPATH=${CLASSPATH}:$f;
+done
+...
 ```

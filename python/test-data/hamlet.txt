@@ -1,0 +1,5 @@
+In addition to the concrete container classes,
+the collections module provides abstract base
+classes that can be used to test whether a class
+provides a particular interface, for example,
+whether it is hashable or a mapping.
