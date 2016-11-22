@@ -2,6 +2,7 @@ os/hd60M.img
 os/boot/*.bin
 *.o
 *.bin
+*.out
 os/os-bochs.out
 .idea
 assembly
