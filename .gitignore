@@ -4,4 +4,5 @@ os/boot/*.bin
 *.bin
 os/os-bochs.out
 .idea
+assembly
 
