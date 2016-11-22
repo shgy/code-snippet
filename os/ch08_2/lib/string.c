@@ -1,4 +1,5 @@
 #include "string.h"
+#include "stdint.h"
 #include "debug.h"
 
 /* 将dst_起始的size个字节置为value */

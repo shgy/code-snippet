@@ -9,7 +9,7 @@ CFLAGS = -m32 -Wall $(LIB) -c -fno-builtin -fno-stack-protector -W -Wstrict-prot
          -Wmissing-prototypes -Wsystem-headers
 
 LDFLAGS = -m elf_i386 -Ttext $(ENTRY_POINT) -e main
-OBJS = $(BUILD_DIR)/main.o  \
+OBJS = $(BUILD_DIR)/main.o    $(BUILD_DIR)/string.o  \
        $(BUILD_DIR)/init.o $(BUILD_DIR)/interrupt.o \
        $(BUILD_DIR)/timer.o $(BUILD_DIR)/kernel.o $(BUILD_DIR)/print.o \
        $(BUILD_DIR)/debug.o $(BUILD_DIR)/print_int.o
@@ -38,7 +38,8 @@ $(BUILD_DIR)/debug.o: kernel/debug.c kernel/debug.h \
 $(BUILD_DIR)/print_int.o: lib/kernel/print_int.c
 	$(CC) $(CFLAGS) $< -o $@
 
-
+$(BUILD_DIR)/string.o: lib/string.c
+	$(CC) $(CFLAGS) $< -o $@
 
 ##############    汇编代码编译    ###############
 $(BUILD_DIR)/kernel.o: kernel/kernel.S
