@@ -1,1 +1,0 @@
-Lucene索引的数据类型包括int/long/float/double四种类型.其实现在NumericUtils类中.
