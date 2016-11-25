@@ -182,12 +182,6 @@ public class NumericRangeQueryDemo {
 所以最终保证了 Integer.compare(x,y) = String.compare(a,b)
 
 
-
-
-
-
-
-
 参考:
 http://blog.csdn.net/debiann/article/details/23012699
 http://brokendreams.iteye.com/blog/2256239
