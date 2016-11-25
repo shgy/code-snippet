@@ -69,7 +69,9 @@ public static void main(String[] args) throws IOException {
 
 前缀具有什么优良的特性呢?  在数据结构上, 前缀属于典型的以空间换时间策略. 即通过存储空间的消耗,换取到极短的查询时间.
 如果学习过Trie和线段数, 树状数组这些数据结构, 可能会更容易理解Lucene这里的做法.
+
 ![前缀图示](numeric_prefix.png)
+
 我们知道, Lucene存储的是倒排索引, 即`term ---> [docid, docid, ... ]` . 假设有如下的需求: 查询价格在[421, 448]的商品.
 假如商品的价格信息如下: A=423, B=445
 对于前缀索引, 其索引结构是这样的:
@@ -126,6 +128,9 @@ size of list is 515
 
 前面说到, 前缀的缺点就是空间消耗. 这一点可以在建立索引时通过precisionStep参数来调整. precisionStep越小, 空间消耗越大, precisionStep越大, 空间消耗越小. 需要注意的是, 在业务中,并不是precisionStep越小, 查询性能越好. 究竟precisionStep设置多大才能达到最佳的平衡点, 需要具体业务, 具体对待.
 
+参考:
+
+http://blog.csdn.net/zhufenglonglove/article/details/51700898
 
 
  
