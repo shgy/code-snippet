@@ -1,7 +1,7 @@
 浮点数(Float/Double)在计算机中的存储存储遵循IEEE-754标准. 通常我们用到的是单精度(float)和双精度(double)这两种,对应的字节数是4byte和和8byte.
 下面以Float为例, 来了解计算机是如何存储浮点数.
-IEEE 754-1985 将存储空间分成三个部分，从最高位到最低位的顺序依次是：符号位(sign)、exponent(指数位)、fraction(分数位)。
-其中sign占1-bit, exponent占8-bit, fraction占23-bit。 对于单精度: 1-8-23 (32)；对于双精度: 1-11-52 (64)  例如浮点数5.5，二进制表示如下:
+IEEE 754-1985 将存储空间分成三个部分，从左到右(最高位到最低位)的顺序依次是：符号位(sign)、exponent(指数位)、fraction(分数位)。
+其中sign占1-bit, exponent占8-bit, fraction占23-bit。 对于单精度: 1-8-23 (32)；对于双精度: 1-11-52 (64)  例如单精度浮点数5.5，二进制表示如下:
 ```
 ------------------------------------------------
 |   0 |1000 0001 |011 0000 0000 0000 0000 0000 |
@@ -9,9 +9,11 @@ IEEE 754-1985 将存储空间分成三个部分，从最高位到最低位的顺
 |Sign | exponent |        fraction             |
 ------------------------------------------------
 ```
-上面这样的二进制数, 如何转换才能得到5.5呢?
+
+接下来,我们逆向思考: 上面这样的二进制数, 如何转换才得到5.5的呢?
+首先给出计算公式: 
 ```
-v(5.5) = (-1)^s * 2^E * M 
+v = (-1)^s * 2^E * M 
 ```
 首先处理符号位  s=0, 所以 (-1)^0 = 1 ； 
 
@@ -22,10 +24,10 @@ v(5.5) = (-1)^s * 2^E * M
 ```
 2^E = 2^(129-127) = 4 ;
 为什么要减去127呢?  这里的指数位采用的是biased exponent, 翻译过来就是`有偏移的指数`(本来应该是129, 无端减去127, 当然偏移了).
-这样做使得负指数也表示成了一个正数，方便计算机对不同浮点数进行大小比较。不考虑符号, 8-bit的存储范围为[0,255], 中间值则是127,
+本来指数的取值范围为[-127,127], 但是为了方便计算机对不同浮点数进行大小比较, 将指数偏移127, 使得负指数也表示成了一个正数.
+
 
 最后处理分数位
-
 23-bit fraction的处理与指数位不同, 我总结的8字秘诀就是`exponent看值, fraction数个.` 即对于23-bit fraction从左到右, 
 第 1位 -- 2^(-1) = 0.5
 第 2位 -- 2^(-2) = 0.25
@@ -38,9 +40,14 @@ v(5.5) = (-1)^s * 2^E * M
 所以对于fraction `011 0000 0000 0000 0000 0000`
 ```
 f = 1*2^(-2) + 1*2^(-3) = 0.375; 
-M = f + 1 = 0.375
+M = f + 1 = 1.375
 ```
 综上所述: `5.5 = 1 * 4 * 1.375`
+
+其实可以证明, fraction最大值近似为1. 即`2^(-1) +2^(-2) + ... + 2^(-n)`的极限为1.
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
+ \\ x=\lim_{n\to +\infty }\sum_{i=1}^{n} 2^{-n} \\
+</script>
 
 对于fraction, 其值M的计算规则需要考虑exponent. 根据exponent的取值分为3种情况:  `e = 0 和 e =[1,254] 和 e=255`. 
 由于Float的exponent只有8位, 所以其最大值为255.
@@ -50,19 +57,8 @@ e=0 是第一种特殊情况, 我们称之为`非规格化的值`, 此时 `M = f
 e=255是第二种特殊情况, 若fraction中23-bit全是0，表示无穷大(infinite); 否则表示NaN(Not a Number)
 
 为了能够多看几个例子, 多做几个实验, 从而对这个转化过程形成感觉. 用python实现了两个简单的函数. 
-一个是将浮点数转换成二进制字符串, 一个是将二进制字符串转换成浮点数.
+一个是将浮点数转换成二进制字符串, 一个是将二进制字符串转换成浮点数.感谢stackoverflow贡献了如此精妙的实现方法.
 
-```
-def float2bin(num):
-  return ''.join(bin(ord(c)).replace('0b', '').rjust(8, '0') for c in struct.pack('!f', num))
-
-
-def bin2float(bits):
-  return struct.unpack('f',struct.pack('I',int(bits,2)))
-
-```
-
-感谢stackoverflow贡献了如此精妙的实现方法.
 ```
 >>> import struct
 >>> def float2bin(num):
@@ -88,6 +84,7 @@ def bin2float(bits):
 ```
 System.out.println(Integer.toBinaryString(Float.floatToIntBits(5.5f)));
 ```
+多解析几个实例后, 就能够理解Float的二进制存储机制.
  
 了解了Float的存储原理后, 再学习Lucene对Float的处理方法, 就简明很多了.
 
@@ -144,16 +141,9 @@ public class NumericRangeQueryDemo {
 		
 	}
 	
-	
-	
-	public static void floatToBytesRef(){
-		System.out.println(Integer.toBinaryString(Float.floatToIntBits(5.5f)));
-	}
-	
 	public static void main(String[] args) throws IOException {
-//		index();
-//		search();
-//		floatToBytesRef();
+		index();
+		search();
 	}
 }
 
