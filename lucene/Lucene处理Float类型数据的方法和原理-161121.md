@@ -46,8 +46,8 @@ M = f + 1 = 1.375
 
 其实可以证明, fraction最大值近似为1. 即`2^(-1) +2^(-2) + ... + 2^(-n)`的极限为1.
 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
- \\( x=\lim_{n\to +\infty }\sum_{i=1}^{n} 2^{-n} \\)
-</script>
+</script> 
+\\( x=\lim_{n\to +\infty }\sum_{i=1}^{n} 2^{-n} \\)
 
 对于fraction, 其值M的计算规则需要考虑exponent. 根据exponent的取值分为3种情况:  `e = 0 和 e =[1,254] 和 e=255`. 
 由于Float的exponent只有8位, 所以其最大值为255.

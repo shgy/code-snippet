@@ -1,5 +1,0 @@
-看到hadoop的很多测试安全都是使用MiniCluster来实现的, 因此想到worldcount应该也可以运行在MiniCluster上.
-验证成功, 贴代码
-```
-
-```
