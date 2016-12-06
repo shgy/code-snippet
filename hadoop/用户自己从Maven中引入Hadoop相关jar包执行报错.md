@@ -1,0 +1,2 @@
+在学习Hadoop的过程中, 不免需要使用maven引用hadoop相关的jar包, 通常情况下,
+由于hadoop各个模块应用jar包版本不同的原因, 执行相关demo可能会报错.
