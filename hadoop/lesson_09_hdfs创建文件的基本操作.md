@@ -1,5 +1,46 @@
+需求: 从HDFS中读取文本文件内容
+参考<Hadoop权威指南>
+```
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.apache.hadoop.fs.FsUrlStreamHandlerFactory;
+import org.apache.hadoop.io.IOUtils;
+
+public class URLCat {
+	static{
+		URL.setURLStreamHandlerFactory(new FsUrlStreamHandlerFactory());
+	}
+
+	public static void main(String[] args) throws MalformedURLException, IOException {
+		InputStream in = null;
+		try {
+			in = new URL(args[0]).openStream();
+			IOUtils.copyBytes(in, System.out, 4096, false);
+		}finally{
+			// TODO: handle exception
+			IOUtils.closeStream(in);
+		}
+	}
+}
+```
+然后打包, 包名为 hadoop-tools.jar
+```
+hadoop jar hadoop-tools.jar URLCat  hdfs://localhost:9000/user/shgy/output/part-r-00000
+```
+
+代码分析: 关键代码在与:
+```
+static{
+    URL.setURLStreamHandlerFactory(new FsUrlStreamHandlerFactory());
+}
+```
+
+
 需求: 将本地文件写入HDFS中.
-需求来源: Hadoop in Action
+参考 Hadoop in Action
 
 ```
 package hdfs.remote;

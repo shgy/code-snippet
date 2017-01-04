@@ -21,7 +21,7 @@ fi
 ```
    echo "ERROR, totalMem=$totalMem, freeMem=$freeMem, limitMem=$limitMem"
 ```
-原因稍后解释.
+
 
 Step 2: 配置Yarn参数
 ```
