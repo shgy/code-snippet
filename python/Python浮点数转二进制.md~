@@ -1,6 +1,0 @@
-在stackoverflow上看到的代码, 觉得相当经典
-将float转换成二进制数
-```
-def binary(num):
-...     return ''.join(bin(ord(c)).replace('0b', '').rjust(8, '0') for c in struct.pack('!f', num))
-```

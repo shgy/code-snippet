@@ -38,7 +38,8 @@ public class SpyDemo {
 		  
 	    spy.process(true);
 	    // 验证
-	    verify(spy).path1();
+	    verify(spy).path1();   // 一定会调用path1
+	    verify(spy, never()).path2(); // 不会调用path2
 	}
 }
 ```

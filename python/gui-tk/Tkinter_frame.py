@@ -9,8 +9,9 @@
 
 from Tkinter import *
 root = Tk()
+Tk.Frame(root, width=640, height=480).grid()
 #以不同的颜色区别各个frame
-for fm in ['red','blue','yellow','green','white','black']:
+# for fm in ['red','blue','yellow','green','white','black']:
     #注意这个创建Frame的方法与其它创建控件的方法不同，第一个参数不是root
-    Frame(height = 40,width = 400,bg = fm).pack()
+Frame(height = 400,width = 400).pack()
 root.mainloop()

@@ -1,0 +1,11 @@
+
+ClientContext contains context information for a client.
+This allows us to share caches such as the socket cache across DFSClient instances.
+
+PeerCache：在Client读取block数据时，需要与Datanode建立Socket链接(NioInetPeer)，
+或者在Shortcircuit场景下创建DoaminSocket(DomainPeer)，毕竟创建这些IO操作句柄是耗时的，
+DFSClient使用PeerCache来缓存这些已经创建的Peer对象(所谓Peer，即内部封装点对点通信Socket对象)，
+PeerCache内部为Map，key为DatanodeID，value为Peer。当DFSClient需要读取文件时，会创建BlockReader对象，
+此时也将会检测PeerCache中对应的目标DatanodeID下是否有已经创建了Peer对象，如果有则根据此Peer创建BlockReader，
+否则则实例化一个新的Peer并放入PeerCache中。
+PeerCache内部启动了一个守护线程，间歇性的检测每个Peer的空闲时间，如果空闲超时，则会从PeerCahce中移除并close。

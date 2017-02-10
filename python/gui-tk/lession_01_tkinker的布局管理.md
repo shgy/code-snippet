@@ -1,0 +1,1 @@
+Tkinter一共有3种布局方式: pack/grid/place 推荐使用grid
