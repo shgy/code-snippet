@@ -1,0 +1,10 @@
+1. get_json_object()  适用于只取一个key
+```
+select a.timestamp, get_json_object(a.appevents, '$.eventid'), get_json_object(a.appenvets, '$.eventname') from log a;
+```
+
+2. json_tuple() 适用于取多个key
+```
+select a.timestamp, b.*
+from log a lateral view json_tuple(a.appevent, 'eventid', 'eventname') b as f1, f2;
+```

@@ -44,3 +44,11 @@ desc function myfun;
 select myfun('true');
 select myfun('asdf');
 ```
+
+在hue中, 可能出现如下的错误.
+```
+Previous writer likely failed to write
+hdfs://tx/tmp/hive/guangying/_tez_session_dir/93edf7e6-978c-4c5d-9315-d09d1faa6a99/hcbudf.jar.
+Failing because I am unlikely to write too.
+```
+这应该是HUE的问题, 清空一下session即可.
