@@ -16,7 +16,7 @@ Handler负责从callQueue中获取并处理Caller对象. 然后执行相应的�
 
 # responder
 
-Responder负责将RPC执行的结果回写到客户端.
+Responder负责将RPC执行的结果回写到客户端. Hander也可以直接将结果返回给客户端.
 
 这样, 在3个伙伴的密切配合下, 一次远程调用就完美地执行了.
 
