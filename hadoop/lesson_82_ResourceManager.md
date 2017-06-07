@@ -1,0 +1,1 @@
+YARN ResourceManager is primarily a pure scheduler.
