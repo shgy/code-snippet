@@ -35,5 +35,5 @@ ContainersLauncher.handle()
 
    最终， 不过是执行 `kill` 命令。
 
-整个链条， ContainerExecutor 是很关键的一环。 再查看ContainerExecutor的源码，
+整个链条， ContainerExecutor 是很关键的一环。 再查看ContainerExecutor的源码可知，
 ContainerExecutor 可谓掌管这着Container的“生杀大权”
