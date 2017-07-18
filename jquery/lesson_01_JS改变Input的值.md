@@ -1,0 +1,21 @@
+在做搜索的功能， 希望用户输入的值匹配多个字段。 但是input只能赋值一个name,怎么处理呢？
+在w3c的页面http://www.w3school.com.cn/tiy/t.asp?f=jquery_manipulation_html_set编辑如下的code
+```
+<!DOCTYPE html>
+<html>
+<script type="text/javascript" src="/jquery/jquery.js"></script>
+<head>
+</head>
+<body>
+<p>请修改输入字段中的文本, 然后就能看到效果。</p>
+
+请输入文本：
+<input type="text" name="txt" value="Hello" oninput='$("#i1").val(this.value)'>
+<input type="text" name="txt" value="Hello" id="i1" >
+
+</body>
+</html>
+```
+
+参考：
+http://blog.csdn.net/zhbitxhd/article/details/12943091

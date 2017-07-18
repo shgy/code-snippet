@@ -188,6 +188,8 @@ AppMaster启动Container执行业务逻辑。 我们只需要改造`ApplicationM
 ```
 到这里， 改动就大功告成了。 当然， 这里还有很多冗余的代码可以去掉， 让主线逻辑更清晰。
 
+注： 由于没有启动HDFS， 所以Yarn使用的是LocalFileSystem. 其HomeDirectory就是启动应用的账户所在的Home。
+
 个人感觉， Yarn的学习曲线是比较陡峭的。 
 只看代码，分析各个组件的功能而没有实际的Coding也是很快就忘记了； 而写代码吧，也没有简单
 的教程让人步步为营。 分析Distributed Shell, 也需要了解Yarn的工作原理和实现细节， 而且

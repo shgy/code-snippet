@@ -1,0 +1,1 @@
+ wget https://bootstrap.pypa.io/ez_setup.py -O - | sudo python

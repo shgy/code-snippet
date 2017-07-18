@@ -1,3 +1,7 @@
+ApplicationMaster由
+org.apache.hadoop.yarn.client.api.async.impl.AMRMClientAsyncImpl.HeartbeatThread
+负责。
+
 （1） 涉及到的RPC协议
 通常而言，编写一个YARN Appcalition涉及到3个RPC协议，分别为：
 1）  ClientRMProtocol(Client<–>ResourceManager)
