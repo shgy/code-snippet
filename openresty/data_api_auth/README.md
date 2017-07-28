@@ -18,7 +18,7 @@ set: uri 中存储当前APP Key允许访问的接口。 Redis中Key的设计如�
 ``` 
 # -*- coding: utf-8 -*-
 import redis, time
-r = redis.Redis(host='127.0.0.1', port=6379, db=0,charset='utf-8',password='bbdapi_redis')
+r = redis.Redis(host='127.0.0.1', port=6379, db=0,charset='utf-8',password='redispass')
 
 # print r.evalsha("0d6b542884c7e95e2b946957dc9e67d9bd9bbac6", 2, "token", int(time.time()))
 
@@ -35,7 +35,7 @@ dat = {
         'check_ip': True
     },
     'ip': ['127.0.0.1'],
-    'api': ['/api/bbd_qyxx/', '/api/bbd_companysearch/']
+    'api': ['/api/bus_02/', '/api/bus_01/']
 }
 
 def fake_data(ak, dat):
