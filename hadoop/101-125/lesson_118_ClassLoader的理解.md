@@ -107,3 +107,5 @@ public class ThreadDemo implements Runnable {
 这样保证了一个JVM进程中， 同一个类只会有一个class对象。 但是对于web应用， 比如Tomcat/jetty,  在一个服务进程中会管理着多个web应用。
 各个web应用之间要保持隔离， 不能相互影响。 因此， Tomcat/jetty 加载web应用采用自定义的ClassLoader, 每个webapp一个ClassLoader实例。
 
+
+当使用new 关键词时， new会自动使用new关键字所在的类的类加载器来加载类。
