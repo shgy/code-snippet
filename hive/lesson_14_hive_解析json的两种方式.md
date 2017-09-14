@@ -2,6 +2,8 @@
 ```
 select a.timestamp, get_json_object(a.appevents, '$.eventid'), get_json_object(a.appenvets, '$.eventname') from log a;
 ```
+2. get_json_object() 可以解析数组
+select get_json_object("[1,2,43]",'$.[1]')
 
 2. json_tuple() 适用于取多个key
 ```

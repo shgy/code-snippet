@@ -12,7 +12,7 @@ WordCount.main()
 -->Job.submit()
 -->JobSubmitter.submitJobInternal()
 -->YarnRunner.submitJob()  --- YarnRunner implements ClientProtocol 
------->YarnUnner.createApplicationSubmissionContext() --- 这里设置RMAppMaster的启动3步骤。
+------>YarnRunner.createApplicationSubmissionContext() --- 这里设置RMAppMaster的启动3步骤。
 --> resMgrDelegate.submitApplication()
 --> YarnClientImpl.submitApplication()
 --> ApplicationClientProtocol.submitApplication()    ---  这里出现了Yarn 应用的第一个Protocol (Client -> RM)
