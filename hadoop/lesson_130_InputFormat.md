@@ -47,3 +47,8 @@ if (start != 0) {
 }
 ```
 
+就是说， 
+除第一个InputSplit外， 每个InputSplit读取的时候都丢弃第一行的内容。
+除最后一个InputSplit外， 每个InputSplit读取的时候都多读一行。
+
+

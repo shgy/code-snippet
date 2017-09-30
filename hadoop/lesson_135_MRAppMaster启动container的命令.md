@@ -72,8 +72,11 @@ Client启动MRAppMaster时， 在YarnRunner.createApplicationSubmissionContext()
 `/bin/java org.apache.hadoop.mapreduce.v2.app.MRAppMaster`
 
 那么问题来了， 同理， MRAppMaster启动MapTask或者ReduceTask， 命令是啥呢？
-``` MapReduceChildJVM.getVMCommand(
-        taskAttemptListener.getAddress(), remoteTask, jvmID)```
+
+```
+MapReduceChildJVM.getVMCommand(taskAttemptListener.getAddress(), remoteTask, jvmID)
+```
+
 MapReduce中， MapTask或ReduceTask的进程入口就是`YarnChild`
 
 到这里， 遗留很久的两个问题：
@@ -87,7 +90,7 @@ MapReduce中， MapTask或ReduceTask的进程入口就是`YarnChild`
 
 3. MapTask和ReduceTask的协作方式？
  
-  非Local, 非Uber模式的任务。 MapTask完成了一定的比例后， 开始启动ReduceTask. 进程间的通信方式为HDFS文件。
+  非Local, 非Uber模式的任务。 MapTask完成了一定的比例后， 开始启动ReduceTask. 进程间的通信方式为RPC和HDFS文件。
   
 
 当然， 这样的回答太粗略了。 接下来就是细化， 丰富这一答案。
