@@ -32,7 +32,8 @@ setp 2: 初始化Job, 这里没有采用异步处理的方式
 1. 确定maptask的个数， 由InputSplit决定。
 2. 判定job的运行模式uber或者non-uber.
 ```
-基于作业大小因素，MRAppMaster提供了三种作业运行方式：本地Local模式、Uber模式、Non-Uber模式。其中，
+基于作业大小因素，MRAppMaster提供了三种作业运行方式：本地Local模式(本地模式压根儿没经过MRAppMaster) 、
+Uber模式、Non-Uber模式。其中，
 1、本地Local模式：通常用于调试；
 2、Uber模式：为降低小作业延迟而设计的一种模式，所有任务，不管是Map Task，还是Reduce Task，
 均在同一个Container中顺序执行，这个Container其实也是MRAppMaster所在Container；

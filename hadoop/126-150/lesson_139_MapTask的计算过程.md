@@ -6,3 +6,6 @@ map阶段：
 kvbuffer ---->  spill.out (spill)  ---->  file.out (combine)
 
 由于数据存放在内存缓冲区中， 缓冲区满了才写入到硬盘， 所以称为spill。
+
+如果maptask处理的数据量分成的spill.out文件小于3个（mapreduce.map.combine.minspills），并且配置了combine，
+那么在map端就会做一些合并操作。
