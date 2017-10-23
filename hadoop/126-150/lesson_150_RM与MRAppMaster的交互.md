@@ -14,4 +14,7 @@ allocate
 public static final String MR_AM_TO_RM_HEARTBEAT_INTERVAL_MS =
 MR_AM_PREFIX + "scheduler.heartbeat.interval-ms";
 public static final int DEFAULT_MR_AM_TO_RM_HEARTBEAT_INTERVAL_MS = 1000;
+
 ```
+
+由于ResourceManage为ApplicationMaster申请资源的过程涉及到多个状态机的转换， 比较复杂，所以先放一放。
