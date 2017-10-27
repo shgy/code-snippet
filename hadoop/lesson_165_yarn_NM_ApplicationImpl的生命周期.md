@@ -23,7 +23,9 @@ ContainerManagerImpl.handle()方法接收到`FINISH_APPS`时会生成`Applicatio
 也就是说，正常情况下， 整个App的生命流程应该是这样的。
 
 用户提交App -->   RM启动AppMaster --> 
-AppMaster向RM注册 -->  AppMaster启动各个Container ---> AppMaster等待各个启动的container完成 -->
+AppMaster向RM注册 -->  AppMaster启动各个Container --->
+各个NM上的Container向RM汇报运行情况  --> AppMaster通过周期性的allocate方法获取container的运行状态 --> 
+AppMaster等待各个启动的container完成 -->
 AppMaster向RM注销 --> RM向Client反馈App已经完成  --> 结束任务,程序退出。
 
  
