@@ -5,9 +5,12 @@ YARN-2834: RM重启后失败
 attempt会找不到app, 从而抛出NPE (Null Pointer Exception)
    
    如何修复呢? 这个涉及到RM的个各个组件的功能.  在
-ApplicationMasterService 和 ApplicationMasterLauncher 两个组件中找找.
+ApplicationMasterService 和 ApplicationMasterLauncher 两个组件中找找. 
+ApplicationMasterService用户 RM-AM交互, AM向RM证明自己活着, 领取生活费. 
+在RMAppManager找到了.
 
-ApplicationMasterService用户 RM-AM交互, AM向RM证明自己活着, 领取生活费.
+
+
 
 ResourceManager在启动的时候, 如果RM支持 recover 功能(可配置), 则会在RM端进行recover操作.
 
