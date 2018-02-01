@@ -11,6 +11,14 @@ LevelDB是google公司开发出来的一款超高性能kv存储引擎,以其惊�
 
 在lesson_21_Yarn_ApplicationHistoryServer中说过一下.
 
+之前运行在YARN上的计算框架中，只有MapReduce配有Job History server，该server可以供用户查询已经运行完成的作业的信息，
+随着YARN上计算框架的增多，有必要增加一个通用的Job History Server，于是开发了Generic history server，后来改名为
+Application Timeline Server，相关文档说明见：Application Timeline Server。注：Application Timeline Server
+可认为YARN提供给应用程序的用于共享信息的共享存储模块，可以将metric等信息存到该模块中，不仅仅是历史作业运行信息。
+目前共享存储模块使用的是单机版的leveldb，用户可根据需要扩展成hbase等。
+参考: http://dongxicheng.org/mapreduce-nextgen/hadoop-2-4-0-new-features/
+
+
 Yarn的Timeline Server有两大职责:
 一. 处于已完成状态的应用的通常信息
 比如:
@@ -46,8 +54,8 @@ by prior 2.6 timeline server, the integrity is broken. Previously,
 Will work on a fix to be compatible to the existing store.
 ```
 2.6版本的entity的完整性假设: 所有的entity都有domainId
-如果leveldb中存在, 2.6以前生成的集群运行信息, 这个完整性假设就不成立了. 因为2.6之前, entity压根没有domainId这个字段.
-需要做一个 向下兼容. 
+如果leveldb中存在2.6以前生成的集群运行信息, 这个完整性假设就不成立了. 因为2.6之前, entity压根没有domainId这个字段.
+需要做一个向下兼容. 
 所以, 这个bug会在集群升级的时候爆出来..
 
 

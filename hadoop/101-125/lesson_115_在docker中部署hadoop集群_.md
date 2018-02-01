@@ -12,10 +12,18 @@ sudo docker pull ubuntu:14.04
 
 2. 启动Docker的image
 ```
-sudo docker run  -rm -t -i -v /home/shgy/hadoop-cluster-docker:/home/shgy  ubuntu:14.04
+sudo docker run  --rm -t -i -v /home/shgy/docker-hadoop-cluster:/home/shgy  ubuntu:16.04
 
-#  -rm 参数表示 退出时就删除container
+#  --rm 参数表示 退出时就删除container
 #  -v 参数表示 挂载本地目录到docker的container
+
+sudo docker run -itd \
+                -v /home/shgy/docker-hadoop-cluster:/home/shgy \
+                --net=hadoop \
+                --name hadoop-master \
+                --hostname hadoop-master \
+                ubuntu:16.04 &> /dev/null
+sudo docker exec -it hadoop-master bash
 ```
 
 3. 查看docker的image 和 docker的container
@@ -29,8 +37,12 @@ sudo docker run  -rm -t -i -v /home/shgy/hadoop-cluster-docker:/home/shgy  ubunt
  sudo docker exec -it hadoop-master bash
 ```
 
-5. 提交变更的container, 比如给ubuntu:14.04 安装vim/open-jdk/open-sshserver后保存成新的image
+5. 提交变更的container, 比如给ubuntu:14.04 安装vim/openjdk-7-jdk/openssh-server后保存成新的image
 ```
+sudo apt-get install python-software-properties software-properties-common
+sudo add-apt-repository ppa:openjdk-r/ppa  
+sudo apt-get update   
+sudo apt-get install openjdk-7-jre openssh-server
 sudo docker commit -m "modify apt source list" -a "shgy" 2e312a39b4bb ubuntu-shgy
 ```
 6. 删除image, container
