@@ -27,4 +27,4 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 ```
-这里的classpath即指: WEB-INF/classes和WEB-INFO/lib目录
+这里的classpath即指: WEB-INF/classes和WEB-INFO/lib目录.
