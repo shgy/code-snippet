@@ -1,5 +1,5 @@
 springmvc配置json相当简单. 简单到令人发指.
-step 1: mvn的pom.mxl配置
+step 1: mvn的pom.mxl配置,除去spring的配置, jackson的3个jar包引入进来.
 ```
  <properties>
         <spring.version>4.1.1.RELEASE</spring.version>
