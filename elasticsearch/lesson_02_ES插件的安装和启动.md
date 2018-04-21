@@ -15,5 +15,11 @@ es-2.2.1版本安装插件。
 http://localhost:9200/_plugin/kopf/
 ```
 
+安装head插件的方法如下:
+```
+wget https://github.com/mobz/elasticsearch-head/archive/master.zip
+./bin/plugin install file:///opt/elasticsearch-2.1.1/master.zip
+```
+
 问题1： 在ubuntu16.04中, 直接从github下载会出现http.protocol_version问题
 问题2： 插件的根目录下需要有`plugin-descriptor.properties`文件

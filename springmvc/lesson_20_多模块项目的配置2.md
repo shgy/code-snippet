@@ -256,7 +256,7 @@ $ cat springmvc-demo-01/springdemo-test/pom.xml
 
 ```
 
-这里需要注意的是: test以来springdemo-web项目时, 依赖要写成
+这里需要注意的是: test依赖springdemo-web项目时, 依赖要写成
 ```
     <dependencies>
         <dependency>
