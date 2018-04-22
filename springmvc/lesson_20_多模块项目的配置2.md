@@ -268,6 +268,17 @@ $ cat springmvc-demo-01/springdemo-test/pom.xml
         </dependency>
     </dependencies>
 ```
+然后, 配置maven的war插件
+```
+<plugin>
+      <artifactId>maven-war-plugin</artifactId>
+      <version>2.1-beta-1</version>
+      <configuration>
+        <attachClasses>true</attachClasses>
+      </configuration>
+    </plugin>
+```
+然后, 无论是mvn package还是mvn test都会正常
 不然, 在整个项目中执行测试是会报错, 找不到相关的类. 因为war包是没法引入相关的类. 
 
 参考:
