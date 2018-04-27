@@ -171,6 +171,8 @@ public class App {
 这个是由spring-data-redis的序列化机制造成的. 
 
 
+参考:
+https://docs.spring.io/spring-data/data-redis/docs/1.7.0.RELEASE/reference/html/#requirements
 
 
 

@@ -272,7 +272,7 @@ $ cat springmvc-demo-01/springdemo-test/pom.xml
 ```
 <plugin>
       <artifactId>maven-war-plugin</artifactId>
-      <version>2.1-beta-1</version>
+      <version>3.0.0</version>
       <configuration>
         <attachClasses>true</attachClasses>
       </configuration>
