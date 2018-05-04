@@ -16,4 +16,4 @@ Valid program names are:
 ```
 HADOOP_CLASSPATH=$(hbase mapredcp):/opt/hbase-1.1.0/conf hadoop jar /opt/hbase-1.1.0/lib/hbase-server-1.1.0.jar rowcounter test
 ```
-
+本地单机模式即可, 但是需要启动hadoop集群`start-dfs.sh, start-yarn.sh`
