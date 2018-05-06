@@ -48,10 +48,11 @@ curl -XGET 'http://localhost:9200/_cluster/health?pretty=true'
 
 6. 查看索引结构及数据样例
 ```
-curl -XGET 'http://localhost:9200/twitter/_settings,_mappings?pretty'
+curl -XGET 'http://localhost:9200/template_test/_settings,_mappings?pretty'
 curl -XGET 'http://localhost:9200/template_test/tweet/1'
 ```
 
 经过后面这些验证, 一般就能规避大多数问题了.
 
-
+参考：
+https://www.elastic.co/guide/en/elasticsearch/reference/2.1/indices-templates.html
