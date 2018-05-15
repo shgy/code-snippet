@@ -115,3 +115,8 @@ https://github.com/zhengfc/redis-cluster-monitor
 
 这个教程相当清楚， 基础， 实用。
 
+===========================================================
+
+这里虽然配置好了， 但是使用了Java代码。 其实是可以将一些代码的配置写入到xml中。
+
+还有就是spring data redis不支持pipeline的方式操作集群。
