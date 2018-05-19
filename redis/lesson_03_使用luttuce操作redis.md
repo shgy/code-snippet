@@ -1,3 +1,7 @@
+想在spring-data-redis中使用redis的pipeline功能。 结果发现jedis不支持redis集群模式下的pipeline, 就找到了luttuce.
+但是luttuce的文档有点简约， 就记录一下操作的代码， 备用。 毕竟redis基本上是高可用系统的标配了。
+
+```
 package com.lettuce.demo;
 
 import com.google.common.collect.Lists;
@@ -50,26 +54,26 @@ public class Basic {
         conn.close();
     }
 
-    private static class DefaultRedisCodec extends RedisCodec<String,Long>{
+ private static class DefaultRedisCodec extends RedisCodec<String,Long> {
         private GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer();
         @Override
         public String decodeKey(ByteBuffer bytes) {
-            if(bytes.hasArray()){
-                return serializer.deserialize(bytes.array(),String.class);
-            }
-            return null;
+            byte[] b = new byte[bytes.remaining()];
+            bytes.get(b);
+            return serializer.deserialize(b, String.class);
         }
 
         @Override
         public Long decodeValue(ByteBuffer bytes) {
-            if(bytes.hasArray()){
-                return serializer.deserialize(bytes.array(), Long.class);
-            }
-            return null;
+            byte[] b = new byte[bytes.remaining()];
+            bytes.get(b);
+            return serializer.deserialize(b, Long.class);
+
         }
 
         @Override
         public byte[] encodeKey(String key) {
+
             return  serializer.serialize(key);
         }
 
@@ -78,7 +82,6 @@ public class Basic {
             return serializer.serialize(value);
         }
     }
-
     private static void testPipeline(RedisClusterClient redisClusterClient) throws ExecutionException, InterruptedException {
         RedisAdvancedClusterAsyncConnection<String, Long> redisClusterConn = redisClusterClient.connectClusterAsync(new DefaultRedisCodec());
         redisClusterConn.setAutoFlushCommands(false);
@@ -130,3 +133,5 @@ public class Basic {
                 new ThreadPoolExecutor.AbortPolicy());
     }
 }
+
+```
