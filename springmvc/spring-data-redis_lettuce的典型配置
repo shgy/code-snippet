@@ -1,0 +1,41 @@
+	<bean id="resourcePropertySource" class="org.springframework.core.env.MapPropertySource">
+		<constructor-arg name="name" value="redis.config" />
+		<constructor-arg name="source">
+			<map>
+				<entry key="spring.redis.cluster.nodes" value="${redis.cluster.nodes}"/>
+				<entry key="spring.redis.cluster.max-redirects" value="${redis.max.redirection}"/>
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean id="redisClusterConfiguration"
+		class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+		<constructor-arg ref="resourcePropertySource" />
+	</bean>
+	<!--<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">-->
+		<!--<property name="maxTotal" value="${redis.pool.maxTotal}" />-->
+		<!--<property name="maxIdle" value="${redis.pool.maxIdle}" />-->
+		<!--<property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}" />-->
+		<!--<property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />-->
+	<!--</bean>-->
+	<!--<bean id="jedisConnFactory"-->
+		<!--class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">-->
+		<!--<constructor-arg ref="redisClusterConfiguration" />-->
+		<!--<constructor-arg ref="jedisPoolConfig" />-->
+		<!--<property name="password" value="${redis.password}"/>-->
+		<!--<property name="timeout" value="${redis.pool.timeout}"/>-->
+	<!--</bean>-->
+
+	<bean id="lettuceConnFactory"
+		  class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory">
+		<constructor-arg ref="redisClusterConfiguration" />
+		<!--<constructor-arg ref="jedisPoolConfig" />-->
+		<property name="password" value="${redis.password}"/>
+		<property name="timeout" value="${redis.pool.timeout}"/>
+	</bean>
+
+	<bean id="defaultSerializer"
+		class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+	<bean id="vivoRedisTemplate" class="org.springframework.data.redis.core.VivoRedisTemplate">
+		<property name="connectionFactory" ref="lettuceConnFactory" />
+		<property name="defaultSerializer" ref="defaultSerializer" />
+	</bean>
