@@ -1,4 +1,6 @@
-使用Lettuce， 默认只能处理String, String的情况。 但是， 我们业务中更多的是String, Int等其他的场景。
+lettuce已经是spring-boot默认的Java客户端了，其优秀的特性不用赘述。我这边用它， 看重其中一点： 支持Redis Cluster的Pipeline功能。
+
+使用Lettuce， 默认只能处理String-String的情况。 但是， 我们业务中更多的是String-Int，String-Object, Object-Object等其他的场景，
 怎么办？
 
 ```
