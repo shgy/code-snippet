@@ -1,11 +1,9 @@
 es的聚合类似于solr的facet功能，如果用sql实现，那就是`group by`. 是垂直搜索领域典型的功能。从产品的角度， 就是提供一个导航栏，帮助用户快速定位目标。
 功能的演示如下：
 
-step1 准备数据
+step1 准备数据 见`creat_data.sh`
 
-
-step2 根据条件查询数据并聚合
-
+step2 根据条件查询数据并聚合，见`term_aggs.sh`和`cardinality_aggs.sh`
 
 问题1：
 通常，我们聚合的是sku, 也就是索引的文档数。当我们需要spu(商品数量)， 即`count(distinct product_id)`时，使用es就出现问题了：es的聚合+distinct时，只能给一个指定精度的值，而不是真实值。这个目前没有解决的办法，只能将`precision_threshold`设置到最大40000。
