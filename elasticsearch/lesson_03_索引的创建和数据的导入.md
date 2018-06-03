@@ -10,6 +10,7 @@ curl -XPOST localhost:9200/cars -d '{
 ```
 
 2. 批量导入数据
+这里有个小细节： POST会自动生成`_id`, PUT必须指定`_id` 
 ```
 curl -XPOST 'localhost:9200/cars/transactions/_bulk?pretty' -H 'Content-Type: application/json' -d'
 { "index": {}}
