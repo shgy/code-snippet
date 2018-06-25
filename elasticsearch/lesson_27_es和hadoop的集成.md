@@ -5,7 +5,11 @@
 
 业务系统  -----  任务处理系统(map-reduce/spark/storm/flink)
 
-这个概念有点大，拆解一下。 如何使用map-reduce从es中导出数据？ map-reduce默认是处理hdfs文件。这里把数据源从文件换成了es, 当然也可以是其他的数据库。
+这个概念有点大，拆解一下。 如何使用map-reduce从es中导出数据？ 
+map-reduce默认是处理hdfs文件。这里把数据源从文件换成了es, 当然也可以是其他的数据库。
+
+接下来就是将ES的doc转化成Hadoop的Input，这里最简单的办法是JSON字符串。可以做到通用， 还有一种是JavaBean对象。
+
 
 
 
