@@ -56,4 +56,10 @@ curl -XDELETE localhost:9200/_search/scroll \
 接下来就从源码开始，看这些API在ES内部的流转操作。
 
 
-
+索引数据
+```
+curl -XPUT 'localhost:9200/twitter/tweet/1?pretty' -d '
+{
+  "name": "John Doe"
+}'
+```
