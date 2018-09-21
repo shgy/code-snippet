@@ -10,6 +10,13 @@ UDAF 就是类似与sum, max, min 这种聚合函数。 有什么场景需要自
 
 接下来，参考类似与`sum, min, max, collect_set`这类内置的udaf函数的实现方式，依样化葫芦。
 
+理解UDFA, 必须理解如下的几个流程：
+1. `iterate`，这就是mr的map 过程。
+2. `merge`， 这就是reduce 过程， 注:map端的reduce叫combine。
+3. `terminatePartial` 取值函数， 用于combine阶段。
+4. `terminate` 取值函数， 最终的结果。
+
+
 
 参考： https://letsdobigdata.wordpress.com/2016/03/02/writing-hive-udf-and-udaf/
 
