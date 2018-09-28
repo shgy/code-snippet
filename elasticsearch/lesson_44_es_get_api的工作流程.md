@@ -1,21 +1,25 @@
-github上es项目讲述其易用性时，用来举例的就有get api。
+Github上es项目讲述其易用性时，用来举例说明ES开箱即用的特性，用的就是Get API。片段摘取如下:
+
 ```
+-- 添加文档
 curl -XPUT 'http://localhost:9200/twitter/doc/1?pretty' -H 'Content-Type: application/json' -d '
 {
     "user": "kimchy",
-    "post_date": "2009-11-15T13:12:00",
+    "post_date": "2009-11-15×××3:12:00",
     "message": "Trying out Elasticsearch, so far so good?"
 }'
 
+-- 读取文档
 curl -XGET 'http://localhost:9200/twitter/doc/1?pretty=true'
 ```
 
-get api 通常的用途有2点: 
-1 检测添加的文档跟预期是否相符。
+Get API通常的用途有2点: 
+1 检测添加的文档跟预期是否相符, 这在问题排查时超级实用。
+
 2 根据id获取整个文档明细， 用于搜索的fetch阶段。 
 
 
-研究ES的内部机制， GET API是一个极佳的切入点。通过GET API， 可以了解到的知识点有：
+研究ES的内部机制， Get API是一个极佳的切入点。通过Get API， 可以了解到的知识点有：
 
 a. ES的rest api实现方式。
 
@@ -31,7 +35,7 @@ f. ES如何根据id获取到lucene的`doc_id`。
 
 g. ES如何根据lucene的`doc_id` 获取文档明细。
 
-...
+   .......
 
 
 研究ES的内部机制，有助于释放ES的洪荒之力。例如：根据业务开发ES的plugin时，其内部流程是很好的借鉴。 内部细节了解越多，越不容易踩坑。
@@ -42,15 +46,19 @@ GET API的核心流程如下:
 `s1: 接收客户端请求` 
 
 ```
+看到controller.registerHandler()方法，很容易就联想到http的请求
+
 public class RestGetAction extends BaseRestHandler {
 
-    ...
+     @Inject
+    public RestGetAction(Settings settings, RestController controller, Client client) {
+        super(settings, controller, client);
+        controller.registerHandler(GET, "/{index}/{type}/{id}", this);
+    } 
 
     @Override
     public void handleRequest(final RestRequest request, final RestChannel channel, final Client client) {
-       
-	...
-
+	       ...
         client.get(getRequest, new RestBuilderListener<GetResponse>(channel) {
             ...
         });
@@ -62,26 +70,20 @@ public class RestGetAction extends BaseRestHandler {
 `s2: 在当前节点执行该请求` 
 
 ```
-
 public class NodeClient extends AbstractClient {
-    
     ...
-    
     @Override
     public <Request extends ActionRequest, Response extends ActionResponse, 
             RequestBuilder extends ActionRequestBuilder<Request, Response, RequestBuilder>> 
        void doExecute(Action<Request, Response, RequestBuilder> action, Request request, ActionListener<Response> listener) {
         TransportAction<Request, Response> transportAction = actions.get(action);
-        if (transportAction == null) {
-            throw new IllegalStateException("failed to find action [" + action + "] to execute");
-        }
+        ...
         transportAction.execute(request, listener);
     }
 }
 
-这里隐含了一个映射表, 如下:
+这里隐含了一个actions的映射表, 如下:
 public class ActionModule extends AbstractModule {
-
     ...
  
     @Override
@@ -97,8 +99,9 @@ public class ActionModule extends AbstractModule {
 `s3: 定位文档所在分片` 
 
 ```
-文档的定位思路很简单， 默认根据文档id, 用hash函数计算出文档的分片ShardId, 通过分片ShardId定位出NodeId。
-关于文档的分片，这里后面单独一篇博客记录。
+文档的定位思路很简单， 默认根据文档id, 用hash函数计算出文档的分片ShardId, 通过分片ShardId定位出NodeId。 
+ES内部维护了一张类似路由表的对象，类名就是RoutingTable. 通过RoutingTable, 可以根据索引名称找到所有的分片；可以通过分片Id找到分片对应的集群Node. 
+关于文档的定位，从应用的角度有两个知识点：routing和preference
 
 public class TransportGetAction extends TransportSingleShardAction<GetRequest, GetResponse> {
 
@@ -115,8 +118,8 @@ public class TransportGetAction extends TransportSingleShardAction<GetRequest, G
 `s4: 将请求转发到分片所在的节点`  
 
 ```
-请求的分发，涉及到ES的RPC通信。上一步定位到NodeId, 将请求发送到该Id即可。
-由于ES的每个Node代码都是一样的， 因此每个Node即承担Server也承担Client的责任，这跟其他的RPC框架有所不同。
+请求的分发，涉及到ES的RPC通信。上一步定位到NodeId, 将请求发送到该NodeId即可。
+由于ES的每个Node代码都是一样的， 因此每个Node既承担Server也承担Client的责任，这跟其他的RPC框架有所不同。
 核心方法是transportService.sendRequest() 和 messageReceived()。 
 
 public abstract class TransportSingleShardAction<Request extends SingleShardRequest, Response extends ActionResponse> extends TransportAction<Request, Response> {
@@ -183,5 +186,5 @@ s5涉及到Lucene的内部实现， 这里不展开赘述。
 最后总结一下:
 
 Get API是ES内部打通了整个流程的功能点。从功能上看，它足够简单；从实现上看，他又串联了ES的主流程，以它为切入口，
-不会像展示`You Know, for Search`的`RestMainAction`那样浮于表面；有不会向实现搜索的接口那样庞杂难懂。
+不会像展示`You Know, for Search`的`RestMainAction`那样浮于表面；又不会像实现搜索的接口那样庞杂难懂。
 
