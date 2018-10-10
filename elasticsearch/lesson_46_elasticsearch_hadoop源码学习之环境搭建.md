@@ -127,9 +127,7 @@ s6: 运行测试用例`AbstractHiveSaveTest.testBasicSave()`。 直接运行是�
 这里用到了log4j2, 所以日志类放在前面。
 
 
-接下来迁移测试代码。迁移的原则是 `若无必要，不新增类。 如果只用到了类的一个方法，那么只迁移一个方法。` 
-
-个人感觉这里比较巧妙的是，启动了一个嵌入式的hive实例。能够执行hive sql, 而且是在一个jvm中， 这个太酷了。对于研究hive来说，太酷了。
+接下来迁移测试代码。迁移的原则是 `若无必要，不新增类。 如果只用到了类的一个方法，那么只迁移一个方法。` 这里的测试代码迁移，其实就是围绕`HiveEmbeddedServer2`来构建的。个人感觉这里比较巧妙的是，通过`HiveEmbeddedServer2`启动了一个嵌入式的hive实例。能够执行hive sql, 而且是在一个jvm中， 这个太酷了。对于研究hive的实现原理来说，太酷了。
 
 
 基础的环境搭建好后，就可以研究elasticsearch-hadoop的源码了， 先看源码的结构:
@@ -157,6 +155,8 @@ elasticsearch-hadoop/hive/src/main/java/org/elasticsearch/hadoop/hive$ tree .
 这里简要描述一下elasticsearch-hadoop将hive数据同步到es的原理， Hive开放了StorageHandler的接口。通过StoreageHandler, 可以使用SQL将数据写入到es，同时也可以使用SQL读取ES中的数据。 所以， 整个es-hive, 其入口类为EsStorageHandler, 这就是整个功能的框架。 了解了EsStorageHandler后，接下来很重要的一个类就是EsSerDe, 是序列化反序列化的功能组件。它是一个桥梁，通过它实现ES数据类型和Hive数据类型的转换。 核心类就是这两个了。
 
 了解了代码的原理及结构，就可以自己仿照实现hive数据同步到mongo, hive数据同步到redis 等其他的功能了。 这样做的好处是业务无关， 一次开发，多次使用。方便管理维护。
+
+最后总结一下，本文没有直接给出答案， 而是记录了寻找答案的过程。 通过这个过程，学会将hive数据同步打其他NoSQL中，这个实践比理解源码更重要。
 
 
 
